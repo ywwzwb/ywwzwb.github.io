@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="项目中经常会有很多临时文件, 如临时的编译中间文件, 通常这些文件不需要加入到版本控制中.如何在提交的时候跳过这些文件?第一个办法是在 git add 的时候手动添加需要加入版本控制的文件, 将需要忽略的文件手动跳过, 这种方法不仅繁琐也很容易犯错.推介的做法是使用 gitignore 文件.">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于git ignore 文件的一切">
+<meta property="og:url" content="https://blog.ywwzwb.pw/2017/01/01/gitignore/index.html">
+<meta property="og:site_name" content="yww 小站">
+<meta property="og:description" content="项目中经常会有很多临时文件, 如临时的编译中间文件, 通常这些文件不需要加入到版本控制中.如何在提交的时候跳过这些文件?第一个办法是在 git add 的时候手动添加需要加入版本控制的文件, 将需要忽略的文件手动跳过, 这种方法不仅繁琐也很容易犯错.推介的做法是使用 gitignore 文件.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-02T07:57:10.940Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于git ignore 文件的一切">
+<meta name="twitter:description" content="项目中经常会有很多临时文件, 如临时的编译中间文件, 通常这些文件不需要加入到版本控制中.如何在提交的时候跳过这些文件?第一个办法是在 git add 的时候手动添加需要加入版本控制的文件, 将需要忽略的文件手动跳过, 这种方法不仅繁琐也很容易犯错.推介的做法是使用 gitignore 文件.">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="yww 小站" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://blog.ywwzwb.pw/2017/01/01/gitignore/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>关于git ignore 文件的一切 | yww 小站</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yww 小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.ywwzwb.pw/2017/01/01/gitignore/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yww">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yww 小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关于git ignore 文件的一切
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-01-02 01:00:49" itemprop="dateCreated datePublished" datetime="2017-01-02T01:00:49+08:00">2017-01-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-02 15:57:10" itemprop="dateModified" datetime="2021-04-02T15:57:10+08:00">2021-04-02</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/其他/" itemprop="url" rel="index"><span itemprop="name">其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2017/01/01/gitignore/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/01/01/gitignore/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>项目中经常会有很多临时文件, 如临时的编译中间文件, 通常这些文件不需要加入到版本控制中.<br>如何在提交的时候跳过这些文件?<br>第一个办法是在 git add 的时候手动添加需要加入版本控制的文件, 将需要忽略的文件手动跳过, 这种方法不仅繁琐也很容易犯错.<br>推介的做法是使用 gitignore 文件.<br><a id="more"></a></p>
+<h2 id="什么是-gitignore-文件"><a href="#什么是-gitignore-文件" class="headerlink" title="什么是 gitignore 文件"></a>什么是 gitignore 文件</h2><p>gitignore 文件是一个普通的文本文件, 使用一定的语法过滤不需要版本控制的文件/ 文件夹 .</p>
+<h2 id="gitignore-文件放在何处"><a href="#gitignore-文件放在何处" class="headerlink" title="gitignore 文件放在何处"></a>gitignore 文件放在何处</h2><p>通常, 有三个位置存放 gitignore 文件</p>
+<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>全局配置负责屏蔽掉所有项目都需要过滤的文件, 如<br><code>Thumbs.db</code>, <code>.DS_Store</code><br>具体位置在可以通过运行命令 <code>git config core.excludesfile</code> 查看<br>全局配置只会影响你自己</p>
+<h3 id="私有配置"><a href="#私有配置" class="headerlink" title="私有配置"></a>私有配置</h3><p>位置在项目根目录下的 <code>.git/info/exclude</code> , 这个文件只会你影响你自己, 不会影响其他人, 也不会传到版本控制中. 可以用来过滤一些你自己私有的文件, 比如你自己用的测试数据等</p>
+<h3 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h3><p>这个文件可以有很多个, 文件名为 <code>.gitignore</code>, 通常只有一个并且放在项目根目录内<br>如果你爱折腾, 也可以创建很多这个文件, 放在子目录里面<br>这个文件会加入到版本控制中, 也会作用于本仓库的其他用户</p>
+<h2 id="多个-gitignore-文件之间的优先级"><a href="#多个-gitignore-文件之间的优先级" class="headerlink" title="多个 gitignore 文件之间的优先级"></a>多个 gitignore 文件之间的优先级</h2><p>首先 <em>.gitignore</em> 文件优先级最高<br>其次是你的<em>私有配置</em><br>再然后是<em>全局配置</em></p>
+<p>如果你爱折腾, 有很多个<em>. gitignore</em> 文件在不同文件夹里面<br>那么不同 <em>.gitignore</em> 文件之间是就近原则<br>例如, 在某个文件夹下 A 下面, 有很多文件 <em>.test</em> 后缀文件<br>根目录下的 <em>.gitignore</em> 屏蔽了所有后缀名为 <em>.test</em> 的文件<br>但是对于这个文件夹下面的这些文件需要加入版本控制, 你有不想或者没有权限去修改根目录下面的 <em>.gitignore</em> 来添加例外规则<br>这个时候, 你就可以在 A 文件夹下面, 自行创建一个 <em>.gitignore</em> 来添加例外把这些文件加入到版本控制中.</p>
+<h2 id="哪些文件需要放入-gitignore-里"><a href="#哪些文件需要放入-gitignore-里" class="headerlink" title="哪些文件需要放入 gitignore 里"></a>哪些文件需要放入 gitignore 里</h2><p>通常, 能够通过其他文件自动生成的都不需要放入版本控制, 如编译产生的临时文件.<br>还有, 操作系统会创建自动创建一些文件, 如缩略图, 这些也不需要放入版本控制<br>最后, 某些比较敏感的文件, 比如包含数据库连接密码的配置文件也不要放到公共 git 仓库里<br>不过, 并不是一定如此, 还是得具体问题具体分析</p>
+<h2 id="我怎么判断哪些规则该写入那个-gitignore-文件"><a href="#我怎么判断哪些规则该写入那个-gitignore-文件" class="headerlink" title="我怎么判断哪些规则该写入那个 gitignore 文件"></a>我怎么判断哪些规则该写入那个 gitignore 文件</h2><p>如果某个规则是需要共享给同一仓库下其他用户的, 比如过滤产生的编译文件, 那么就写入 <em>.gitignore</em> 中<br>如果某一个规则只需要针对一个特定的仓库, 但是你不需要共享给其他用户, 比如你自己用的测试数据, 那就放入<em>私有配置</em>中<br>如果你想某个规则在所有仓库下都能过滤指定的文件, 如 Mac 下的  <code>.DS_Store</code> 文件, 那么就写入到<em>全局配置</em>文件里面</p>
+<h2 id="我该如何编写-gitignore-文件"><a href="#我该如何编写-gitignore-文件" class="headerlink" title="我该如何编写 gitignore 文件"></a>我该如何编写 gitignore 文件</h2><p> gitignore文件中, 一行对应一条规则</p>
+<ul>
+<li>空行被自动忽略, 可以随便插入若干行空行, 你可以作为不同类型规则的分割线</li>
+<li><p>以 <code>#</code> 开头的规则被认为是注释, 会被自动忽略. 如果你想过滤一个 以 <code>#</code> 开头的文件, 可以在 <code>#</code> 之前加一个 反斜杠<code>\\</code>, 如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 这是注释, 下面一条规则会过滤 #.txt 这个文件</span><br><span class="line">\#.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>会自动去除规则前后的空格, 如果你想要过滤文件名中头尾含有空格的文件, 用 反斜杠 <code>\\</code> 将规则包裹起来, 如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 下面这两条规则其实是一样的</span><br><span class="line">abc.txt</span><br><span class="line">  abc.txt</span><br><span class="line"></span><br><span class="line"># 过滤&quot; 123.txt&quot; 这个文件</span><br><span class="line">\ 123.txt\</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>!</code> 开头的规则表示例外规则,会将符合规则的文件重新加入版本控制中. 不过如果某文件所处的文件夹被过滤了, 是不可能通过单独写一条例外规则来让这个文件重新加入版本控制中的. 如果需要过滤一个以 感叹号开头的文件, 需要在 <code>!</code> 之前加上一个反斜杠 <code>\\</code> , 如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 过滤所有后缀为 .a 的文件</span></span><br><span class="line">*.a</span><br><span class="line"><span class="comment"># 但是保留 privatelib.a 文件</span></span><br><span class="line">!privatelib.a</span><br><span class="line"><span class="comment"># 过滤 build 文件夹</span></span><br><span class="line">build/</span><br><span class="line"><span class="comment"># 下面这句是无意义的, 因为父文件夹已经被过滤了</span></span><br><span class="line">!build/a.class</span><br><span class="line"><span class="comment"># 过滤 "!.txt" 文件</span></span><br><span class="line">\!.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果规则以斜杠 <code>/</code> 结尾, 代表过滤掉这个文件夹及其所有子文件及子文件夹, 如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 过滤 build 文件夹及下面所有的文件和文件夹</span><br><span class="line">build/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>普通规则, 如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 过滤文件名为 test.txt 的文件</span><br><span class="line">test.txt</span><br><span class="line"># 过滤所有 .a 结尾的文件</span><br><span class="line">*.a</span><br><span class="line"># 过滤文件名只有一个字符的txt 文件 </span><br><span class="line">?.txt</span><br><span class="line"># 过滤 testa.txt, testb.txt</span><br><span class="line">test[ab].txt</span><br><span class="line"># 过滤 testc.txt 到 testz.txt</span><br><span class="line">test[c-z].txt</span><br><span class="line"># 仅仅过滤项目根目录下的 TODO 文件，不包括 /A/TODO</span><br><span class="line">/TODO</span><br><span class="line"># 过滤 doc/notes.txt 但不包括 doc/server/notes.txt. </span><br><span class="line"># 相对路径以当前的 .gitignore 文件为起点, </span><br><span class="line"># 如果是 私有配置 或是 全局配置, 则以项目根目录为起点</span><br><span class="line">doc/notes.txt</span><br><span class="line"># 过滤 package 目录下所有的 readme.md文件</span><br><span class="line">package/**/readme.md</span><br><span class="line"># 过滤config 下的所有文件, 但是不包括文件名如 *template.conf 的文件</span><br><span class="line">/config/*</span><br><span class="line">!/config/*.template.conf</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="语法这么麻烦-有没有现成的"><a href="#语法这么麻烦-有没有现成的" class="headerlink" title="语法这么麻烦, 有没有现成的"></a>语法这么麻烦, 有没有现成的</h2><p>如果你像我一样懒, 你可以在<a href="https://github.com/github/gitignore" target="_blank" rel="noopener">github 提供的常用 gitignore 文件</a> 去找找.<br>你只需下载你需要的文件, 然后重命名为.gitignore 放到你项目根目录里面就行</p>
+<h2 id="我该在什么时候编写-gitignore-文件"><a href="#我该在什么时候编写-gitignore-文件" class="headerlink" title="我该在什么时候编写 gitignore 文件"></a>我该在什么时候编写 gitignore 文件</h2><p>gitignore 对已经提交的文件没有作用, 也就是说, 你不能编写一个规则去过滤对某一个已经加入版本控制的文件<br>所以你应该一开始就写 gitignore, 如果是 <em>.gitignore</em>, 记得在第一时间提交上去</p>
+<h2 id="如何添加强行将某一个被忽略的文件加入版本控制中而不用修改任何现存的-gitignore"><a href="#如何添加强行将某一个被忽略的文件加入版本控制中而不用修改任何现存的-gitignore" class="headerlink" title="如何添加强行将某一个被忽略的文件加入版本控制中而不用修改任何现存的 gitignore"></a>如何添加强行将某一个被忽略的文件加入版本控制中而不用修改任何现存的 gitignore</h2><p>如果只有一两个被过滤的文件想要加入版本控制中, 而你又嫌弃修改 gitignore 复杂而麻烦, 你可以使用 <code>git add -f mainlib.a</code> 加入版本控制</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>gitignore 是用来过滤不想加入版本控制的文件用的</li>
+<li>可以找到很多现成的 gitignore 文件</li>
+<li>你应该尽早编写gitignore并及时提交</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>git 官方文档: <a href="https://git-scm.com/docs/gitignore" target="_blank" rel="noopener">https://git-scm.com/docs/gitignore</a><br>segmentfault: <a href="https://segmentfault.com/a/1190000000522997" target="_blank" rel="noopener">https://segmentfault.com/a/1190000000522997</a><br>廖雪峰的博客: <a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013758404317281e54b6f5375640abbb11e67be4cd49e0000" target="_blank" rel="noopener">http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013758404317281e54b6f5375640abbb11e67be4cd49e0000</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/31/weak-on-associate/" rel="prev" title="如何在关联对象上使用 weak">
+                如何在关联对象上使用 weak <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">yww</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/ywwzwb" title="GitHub &rarr; https://github.com/ywwzwb" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-gitignore-文件"><span class="nav-number">1.</span> <span class="nav-text">什么是 gitignore 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gitignore-文件放在何处"><span class="nav-number">2.</span> <span class="nav-text">gitignore 文件放在何处</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局配置"><span class="nav-number">2.1.</span> <span class="nav-text">全局配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#私有配置"><span class="nav-number">2.2.</span> <span class="nav-text">私有配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gitignore"><span class="nav-number">2.3.</span> <span class="nav-text">.gitignore</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多个-gitignore-文件之间的优先级"><span class="nav-number">3.</span> <span class="nav-text">多个 gitignore 文件之间的优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哪些文件需要放入-gitignore-里"><span class="nav-number">4.</span> <span class="nav-text">哪些文件需要放入 gitignore 里</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我怎么判断哪些规则该写入那个-gitignore-文件"><span class="nav-number">5.</span> <span class="nav-text">我怎么判断哪些规则该写入那个 gitignore 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我该如何编写-gitignore-文件"><span class="nav-number">6.</span> <span class="nav-text">我该如何编写 gitignore 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法这么麻烦-有没有现成的"><span class="nav-number">7.</span> <span class="nav-text">语法这么麻烦, 有没有现成的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我该在什么时候编写-gitignore-文件"><span class="nav-number">8.</span> <span class="nav-text">我该在什么时候编写 gitignore 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何添加强行将某一个被忽略的文件加入版本控制中而不用修改任何现存的-gitignore"><span class="nav-number">9.</span> <span class="nav-text">如何添加强行将某一个被忽略的文件加入版本控制中而不用修改任何现存的 gitignore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">11.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yww</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery@2/dist/jquery.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'TSNFLea1bFtd4cj2uA5pN5eL-MdYXbMMI',
+    appKey: '5Nmfp6TpsW6L0bCAqoYqF23e',
+    placeholder: 'leave comment here',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

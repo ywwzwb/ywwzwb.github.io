@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本站使用hexo 搭建, 仅以此文记录搭建过程. 最终期望效果 本地编写文章, 也可以通过控制页面创建文章 附带一个简单后台, 提供基本的控制, 如新建文章等 使用 git push 到自己的仓库 git push hook 将文件推送到 hexo 指定目录 hexo 将 md 渲染 为 html hexo 自动将文章推送到github 带有评论功能 支持docker 部署">
+<meta name="keywords" content="hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 搭建记录">
+<meta property="og:url" content="https://blog.ywwzwb.pw/2019/05/08/build-hext/index.html">
+<meta property="og:site_name" content="yww 小站">
+<meta property="og:description" content="本站使用hexo 搭建, 仅以此文记录搭建过程. 最终期望效果 本地编写文章, 也可以通过控制页面创建文章 附带一个简单后台, 提供基本的控制, 如新建文章等 使用 git push 到自己的仓库 git push hook 将文件推送到 hexo 指定目录 hexo 将 md 渲染 为 html hexo 自动将文章推送到github 带有评论功能 支持docker 部署">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/deploy-key/deploy-key01.png">
+<meta property="og:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/build-hexo/076DDD1E-F3D9-472E-80D7-280C5B8F0F0A.png">
+<meta property="og:updated_time" content="2021-04-02T07:57:10.940Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo 搭建记录">
+<meta name="twitter:description" content="本站使用hexo 搭建, 仅以此文记录搭建过程. 最终期望效果 本地编写文章, 也可以通过控制页面创建文章 附带一个简单后台, 提供基本的控制, 如新建文章等 使用 git push 到自己的仓库 git push hook 将文件推送到 hexo 指定目录 hexo 将 md 渲染 为 html hexo 自动将文章推送到github 带有评论功能 支持docker 部署">
+<meta name="twitter:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/deploy-key/deploy-key01.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="yww 小站" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://blog.ywwzwb.pw/2019/05/08/build-hext/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Hexo 搭建记录 | yww 小站</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yww 小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.ywwzwb.pw/2019/05/08/build-hext/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yww">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yww 小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hexo 搭建记录
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-08 13:16:34" itemprop="dateCreated datePublished" datetime="2019-05-08T13:16:34+08:00">2019-05-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-02 15:57:10" itemprop="dateModified" datetime="2021-04-02T15:57:10+08:00">2021-04-02</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/其他/" itemprop="url" rel="index"><span itemprop="name">其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/05/08/build-hext/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/08/build-hext/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本站使用hexo 搭建, 仅以此文记录搭建过程.</p>
+<h2 id="最终期望效果"><a href="#最终期望效果" class="headerlink" title="最终期望效果"></a>最终期望效果</h2><ol>
+<li>本地编写文章, 也可以通过控制页面创建文章</li>
+<li>附带一个简单后台, 提供基本的控制, 如新建文章等</li>
+<li>使用 git push 到自己的仓库</li>
+<li>git push hook 将文件推送到 hexo 指定目录</li>
+<li>hexo 将 md 渲染 为 html</li>
+<li>hexo 自动将文章推送到github</li>
+<li>带有评论功能</li>
+<li>支持docker 部署<a id="more"></a>
+</li>
+</ol>
+<h2 id="进度记录"><a href="#进度记录" class="headerlink" title="进度记录"></a>进度记录</h2><ul>
+<li style="list-style: none"><input type="checkbox" checked> <code>Hexo</code> 环境搭建(2018-05-08)</li>
+<li style="list-style: none"><input type="checkbox" checked> <del>图片上传系统</del>(自建服务器有风险, 现在使用阿里云和公共图床)</li>
+<li style="list-style: none"><input type="checkbox" checked> 简单的维护功能, 例如推送, 开启服务器</li>
+<li style="list-style: none"><input type="checkbox" checked> git webhook</li>
+<li style="list-style: none"><input type="checkbox" checked> github 网站配置(2018-05-08)</li>
+<li style="list-style: none"><input type="checkbox" checked> NexT 主题<ul>
+<li style="list-style: none"><input type="checkbox" checked> 缺少分类页面(2018-05-08)</li>
+<li style="list-style: none"><input type="checkbox" checked> 缺少关于页面(2018-05-08)</li>
+</ul>
+</li>
+<li style="list-style: none"><input type="checkbox" checked> 自动渲染</li>
+<li style="list-style: none"><input type="checkbox" checked> 自动推送</li>
+<li style="list-style: none"><input type="checkbox" checked> 评论系统<ul>
+<li style="list-style: none"><input type="checkbox" checked> LeanCloud 应用创建(2018-05-08)</li>
+<li style="list-style: none"><input type="checkbox" checked> valine 集成</li>
+<li style="list-style: none"><input type="checkbox"> 评论系统回复通知</li>
+</ul>
+</li>
+<li style="list-style: none"><input type="checkbox" checked> docker 集成</li>
+</ul>
+<h2 id="Hexo-环境搭建"><a href="#Hexo-环境搭建" class="headerlink" title="Hexo 环境搭建"></a>Hexo 环境搭建</h2><p>我是在 <code>docker</code> 中创建的 <code>Hexo</code> 环境, 处于容器小型化的考虑, 使用 <code>alpine</code> 作为基础.</p>
+<h3 id="必要依赖"><a href="#必要依赖" class="headerlink" title="必要依赖"></a>必要依赖</h3><p>首先需要安装依赖, 主要是 <code>git</code> 和 <code>nodejs</code>, 需要注意的是,  <code>nodejs</code>  包不含 <code>npm</code> 工具, 需要使用 <code>nodejs-npm</code></p>
+<p>安装完依赖环境后就可以安装 <code>hexo</code> 了, 这一步可以参考<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">官方文档</a><br>完整安装命令如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apk update</span><br><span class="line">apk upgrade</span><br><span class="line">apk add git</span><br><span class="line">apk add nodejs-npm</span><br></pre></td></tr></table></figure></p>
+<h3 id="github-部署依赖"><a href="#github-部署依赖" class="headerlink" title="github 部署依赖"></a>github 部署依赖</h3><p>另外, 由于需要提交代码到 github 仓库, 使用 <code>ssh</code> 公钥认证系统可以免密码认证, 那就需要安装 <code>openssh</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装openssh</span></span><br><span class="line">apk add openssh</span><br><span class="line"><span class="comment"># 生成公私钥对</span></span><br><span class="line">ssh-keygen -t rsa -b 4096 -C <span class="string">"hexo-server"</span></span><br></pre></td></tr></table></figure>
+<h3 id="其他杂项"><a href="#其他杂项" class="headerlink" title="其他杂项"></a>其他杂项</h3><h4 id="时区"><a href="#时区" class="headerlink" title="时区"></a>时区</h4><p>如果你发现在新建文章时, 时间不对, 可能需要调整服务器的时区, <code>alpine</code> 设置时区需要安装 <code>tzdata</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apk add tzdata</span><br><span class="line">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure></p>
+<h4 id="ssh-远程登录"><a href="#ssh-远程登录" class="headerlink" title="ssh 远程登录"></a>ssh 远程登录</h4><p>由于我是在docker 建立的容器, 初始没有设置密码, 如果需要远程登录, 比需要先设置密码</p>
+<p>同时, 为了方便, 还可以使用公钥认证.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成hostkey</span></span><br><span class="line">ssh-keygen -A</span><br><span class="line"><span class="comment"># 修改密码</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"root:xxxx"</span> | chpasswd</span><br><span class="line"><span class="comment"># 创建.ssh 目录</span></span><br><span class="line">mkdir -p ~/.ssh</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"你的公钥"</span> &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line">sed -i <span class="string">"s/#PermitRootLogin.*/PermitRootLogin without-password/"</span> /etc/ssh/sshd_config</span><br><span class="line">sed -i <span class="string">"s/#PasswordAuthentication.*/PasswordAuthentication no/"</span> /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+<p>需要注意的是, docker 的  alpine 不建议使用 <code>openrc</code> 来使 <code>sshd 自启动</code>, <a href="https://github.com/gliderlabs/docker-alpine/issues/42#issuecomment-109796726" target="_blank" rel="noopener">见此回复</a></p>
+<p>所以如果需要启动 ssh 可以使用 下面这两条命令的一个就行了, 需要开机启动就加入到你的启动脚本中即可.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 阻塞式</span></span><br><span class="line">/usr/sbin/sshd -D</span><br><span class="line"><span class="comment"># 非阻塞式</span></span><br><span class="line">/usr/sbin/sshd</span><br></pre></td></tr></table></figure></p>
+<h4 id="rss-支持"><a href="#rss-支持" class="headerlink" title="rss 支持"></a>rss 支持</h4><p>这一步可以跳过, 如果需要支持rss订阅功能, 你需要额外安装rss 插件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-feed --save</span><br></pre></td></tr></table></figure></p>
+<h2 id="Hexo-配置"><a href="#Hexo-配置" class="headerlink" title="Hexo 配置"></a>Hexo 配置</h2><h3 id="github-仓库关联"><a href="#github-仓库关联" class="headerlink" title="github 仓库关联"></a>github 仓库关联</h3><p>关联后, 可以使用 <code>hexo deploy</code> 将文章发布到github<br>需要修改 <code>_config.yml</code> 并设置git 地址.<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">git@github.com:xxx/xxxx.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure></p>
+<p>然后将之前生成的公钥(路径:<code>~/.ssh/id_rsa.pub</code>)拷贝出来. 在 <code>xxx.github.io</code> 仓库的设置为 deploy key 即可.<br><img src="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/deploy-key/deploy-key01.png" alt="github 设置"></p>
+<h3 id="关于readme-md-文件"><a href="#关于readme-md-文件" class="headerlink" title="关于readme.md 文件"></a>关于readme.md 文件</h3><p>git 仓库一般在根目录都有一个 readme 文件, 如果你需要添加 readme 到 git 仓库中, 只需要在source 中添加一个 readme.md 文件, 同时在配置文件中. 将此文件跳过渲染即可.<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">skip_render:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">readme.md</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="使用自己的域名"><a href="#使用自己的域名" class="headerlink" title="使用自己的域名"></a>使用自己的域名</h3><p>首先需要在域名的控制面板中, 添加一个域名, 并将域名cname 设置为你的github域名<br>如果使用自己的域名, 在source 中建立一个文件 CNAME, 并在其中填入你自己的域名即可<br>同时, 这个文件也需要跳过渲染, 同readme.md 类似.<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">skip_render:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">CNAME</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="使用-NexT-主题"><a href="#使用-NexT-主题" class="headerlink" title="使用 NexT 主题"></a>使用 NexT 主题</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>你可以在<a href="https://theme-next.org/docs/getting-started/" target="_blank" rel="noopener">官方文档</a>中查看详细教程.<br>基本来说就是克隆代码到 theme 文件夹中, 然后在 hexo 的配置文件中将 theme 设置为 next 即可.</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>这些配置不改也可以用, 主要是一些附加功能.</p>
+<p>修改配置需要编辑 /theme/next/_config.yml 文件<br>开启 CC 标签<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">deed.zh</span></span><br></pre></td></tr></table></figure></p>
+<p>开启 <code>fontawesome</code> 的图标支持<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">vendors:</span></span><br><span class="line"><span class="attr">fontawesome:</span> <span class="string">//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css</span></span><br></pre></td></tr></table></figure></p>
+<p>显示 github 图标, 这里需要注意一下, 如果你按照这个配置设置, 就必须要开启 <code>fontawesome</code>, 否则就看不到图标了</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="attr">GitHub:</span> <span class="string">https://github.com/xxx</span> <span class="string">||</span> <span class="string">github</span></span><br><span class="line"><span class="attr">social_icons:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">icons_only:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">transition:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>显示分类页面</p>
+<p>在命令行输入:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure></p>
+<p>修改 source/categories/index.md, 页面的类型设置为 categories, 同时, 通常这个页面也不需要评论, 一并关闭了.</p>
+<p>全文如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 分类</span><br><span class="line">date: 2019-05-08 22:47:57</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
+<h2 id="git-push-hook-的设置"><a href="#git-push-hook-的设置" class="headerlink" title="git push hook 的设置"></a>git push hook 的设置</h2><p>我自己使用的私人仓库是自建的 <code>bitbucket</code>服务器, 其他环境没有测试过.<br>以下均以 <code>bitbucket</code> 来说明</p>
+<ol>
+<li>开启访问权限<br>和 <code>github</code> 的 <code>deploy key</code> 类似, <code>bitbucket</code> 也有类似的, 叫 <code>access key</code>, 也可以设置读写权限, 这里我们只需要读取就行了.<br><img src="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/build-hexo/076DDD1E-F3D9-472E-80D7-280C5B8F0F0A.png" alt></li>
+<li><p>添加webhook<br><code>webhook</code> 原理很简单, <code>bitbucket</code> 会在用户触发某个动作, 例如push动作, 之后, 自动调用某一个 url, 在其中传入特定的参数, web服务器接收到这个请求之后, 再执行相应的动作就可以了.<br>我们可以使用golang 来完成这个简单的任务.</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	<span class="string">"os/exec"</span></span><br><span class="line"></span><br><span class="line">	<span class="string">"github.com/gorilla/mux"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// WebhookHandler handle web hook</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WebhookHandler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	log.Print(<span class="string">"X-Event-Key:"</span>, r.Header.Get(<span class="string">"X-Event-Key"</span>))</span><br><span class="line">	<span class="keyword">if</span> r.Header.Get(<span class="string">"X-Event-Key"</span>) != <span class="string">"repo:refs_changed"</span> &#123;</span><br><span class="line">		<span class="comment">// only handle push event</span></span><br><span class="line">		w.Write([]<span class="keyword">byte</span>(<span class="string">"ok\n"</span>))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	cmdout, err := exec.Command(<span class="string">"/bin/sh"</span>, <span class="string">"./update.sh"</span>).CombinedOutput()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Print(<span class="string">"update failed:"</span>, err, <span class="string">"\n, output: "</span>, <span class="keyword">string</span>(cmdout))</span><br><span class="line">		w.WriteHeader(<span class="number">500</span>)</span><br><span class="line">		w.Write([]<span class="keyword">byte</span>(<span class="string">"failed\n"</span>))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	log.Print(<span class="string">"update succeed: \n"</span>, <span class="keyword">string</span>(cmdout))</span><br><span class="line">	w.Write([]<span class="keyword">byte</span>(<span class="string">"ok\n"</span>))</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	r.HandleFunc(<span class="string">"/"</span>, WebhookHandler)</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">":8123"</span>, r))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>webhook 在收到请求时, 会触发同目录下的 update.sh 脚本, 我们在这个脚本中执行自动更新代码, 自动编译, 自动部署即可.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="string">"your clone path"</span></span><br><span class="line"><span class="comment"># pull code</span></span><br><span class="line">git clean --force -d -x</span><br><span class="line">git reset --hard</span><br><span class="line">git pull</span><br><span class="line"><span class="comment"># hexo build and deploy</span></span><br><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="评论系统"><a href="#评论系统" class="headerlink" title="评论系统"></a>评论系统</h2><p>评论系统使用 <a href="https://valine.js.org/" target="_blank" rel="noopener">valine</a>, 评论后会提交到 <a href="https://leancloud.cn/" target="_blank" rel="noopener">LeanCloud</a><br>使用这位同学提供的评论的回复推送: <a href="http://www.zhaojun.im/hexo-valine-admin/" target="_blank" rel="noopener">赵俊的博客</a><br>喜大普奔, 有回复系统了, 可惜没有审核, 希望别凉了</p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>github 会自动为你生成https证书( github 赛高)</p>
+<h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h3 id="CC-协议的选择"><a href="#CC-协议的选择" class="headerlink" title="CC 协议的选择"></a>CC 协议的选择</h3><p>CC 协议规定了文章的授权方式以及是否允许商业使用, 与开源代码协议类似<br>可以参考<a href="https://zhuanlan.zhihu.com/p/20641764" target="_blank" rel="noopener">这篇文章</a>选择.</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/31/weak-on-associate/" rel="next" title="如何在关联对象上使用 weak">
+                <i class="fa fa-chevron-left"></i> 如何在关联对象上使用 weak
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/12/yaml/" rel="prev" title="yaml 文件简介">
+                yaml 文件简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">yww</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/ywwzwb" title="GitHub &rarr; https://github.com/ywwzwb" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#最终期望效果"><span class="nav-number">1.</span> <span class="nav-text">最终期望效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进度记录"><span class="nav-number">2.</span> <span class="nav-text">进度记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-环境搭建"><span class="nav-number">3.</span> <span class="nav-text">Hexo 环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#必要依赖"><span class="nav-number">3.1.</span> <span class="nav-text">必要依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github-部署依赖"><span class="nav-number">3.2.</span> <span class="nav-text">github 部署依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他杂项"><span class="nav-number">3.3.</span> <span class="nav-text">其他杂项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#时区"><span class="nav-number">3.3.1.</span> <span class="nav-text">时区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ssh-远程登录"><span class="nav-number">3.3.2.</span> <span class="nav-text">ssh 远程登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rss-支持"><span class="nav-number">3.3.3.</span> <span class="nav-text">rss 支持</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-配置"><span class="nav-number">4.</span> <span class="nav-text">Hexo 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#github-仓库关联"><span class="nav-number">4.1.</span> <span class="nav-text">github 仓库关联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于readme-md-文件"><span class="nav-number">4.2.</span> <span class="nav-text">关于readme.md 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用自己的域名"><span class="nav-number">4.3.</span> <span class="nav-text">使用自己的域名</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-NexT-主题"><span class="nav-number">5.</span> <span class="nav-text">使用 NexT 主题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">5.2.</span> <span class="nav-text">配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-push-hook-的设置"><span class="nav-number">6.</span> <span class="nav-text">git push hook 的设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#评论系统"><span class="nav-number">7.</span> <span class="nav-text">评论系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS"><span class="nav-number">8.</span> <span class="nav-text">HTTPS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#杂谈"><span class="nav-number">9.</span> <span class="nav-text">杂谈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CC-协议的选择"><span class="nav-number">9.1.</span> <span class="nav-text">CC 协议的选择</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yww</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery@2/dist/jquery.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'TSNFLea1bFtd4cj2uA5pN5eL-MdYXbMMI',
+    appKey: '5Nmfp6TpsW6L0bCAqoYqF23e',
+    placeholder: 'leave comment here',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

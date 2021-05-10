@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(除 vmware fusion, 比如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.">
+<meta name="keywords" content="mac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="制作macOS 安装 iso">
+<meta property="og:url" content="https://blog.ywwzwb.pw/2021/01/18/make-mac-install-iso/index.html">
+<meta property="og:site_name" content="yww 小站">
+<meta property="og:description" content="在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(除 vmware fusion, 比如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-05-10T07:27:39.860Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="制作macOS 安装 iso">
+<meta name="twitter:description" content="在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(除 vmware fusion, 比如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="yww 小站" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://blog.ywwzwb.pw/2021/01/18/make-mac-install-iso/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>制作macOS 安装 iso | yww 小站</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yww 小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.ywwzwb.pw/2021/01/18/make-mac-install-iso/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yww">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yww 小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">制作macOS 安装 iso
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-18 18:21:00" itemprop="dateCreated datePublished" datetime="2021-01-18T18:21:00+08:00">2021-01-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-05-10 15:27:39" itemprop="dateModified" datetime="2021-05-10T15:27:39+08:00">2021-05-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/其他/" itemprop="url" rel="index"><span itemprop="name">其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2021/01/18/make-mac-install-iso/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/01/18/make-mac-install-iso/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(除 vmware fusion, 比如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?<br>虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.<br><a id="more"></a></p>
+<h2 id="下载系统"><a href="#下载系统" class="headerlink" title="下载系统"></a>下载系统</h2><p>如果需要下载到干净的系统, 那么你需要一台可以工作的 mac 电脑, 或是其他运行 macOS 的虚拟机/黑苹果等.<br>可以参考这篇文档的 下载 macOS 部分, 里面有教你如何下载系统. 目前有<a href="https://itunes.apple.com/cn/app/macos-high-sierra/id1246284741?ls=1&amp;mt=12" target="_blank" rel="noopener">10.13(macOS High Sierra)</a>, <a href="https://itunes.apple.com/cn/app/macos-mojave/id1398502828?ls=1&amp;mt=12" target="_blank" rel="noopener">10.14(macOS Mojave)</a>, <a href="https://itunes.apple.com/cn/app/macos-catalina/id1466841314?ls=1&amp;mt=12" target="_blank" rel="noopener">10.15(macOS Catalina)</a>, <a href="https://itunes.apple.com/cn/app/macos-big-sur/id1526878132?ls=1&amp;mt=12" target="_blank" rel="noopener">11.0(macOS Big Sur)</a>, <a href="http://updates-http.cdn-apple.com/2019/cert/061-41424-20191024-218af9ec-cf50-4516-9011-228c78eda3d2/InstallMacOSX.dmg" target="_blank" rel="noopener">10.11(OS X El Capitan, 这个链接不能直接打开, 右键复制链接地址后, 手动开启新的tab 页面打开)</a>的系统提供下载.<br>如果是下载 10.13, 10.14, 10.15, 11.0, 基本就是打开连接后, 会提示是否在 App Store 中显示, 然后会进入系统设置的软件更新, 开始下载.<br>如果是10.11 则是直接下载一个dmg, 里面有一个InstallMacOSX.pkg 的安装包, 将它打开安装, 稍后就会多出现程序出现在你的/Application目录中.<br>下载完成后, 不用安装. 如果出现了安装界面, 直接退出即可.</p>
+<h2 id="制作-iso-镜像"><a href="#制作-iso-镜像" class="headerlink" title="制作 iso 镜像"></a>制作 iso 镜像</h2><p>大致流程:<br>创建dmg, 将系统安装盘写入dmg, 将dmg 转换为iso.<br>首先需要打开终端执行命令.</p>
+<h3 id="创建dmg"><a href="#创建dmg" class="headerlink" title="创建dmg"></a>创建dmg</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdiutil create -o /tmp/dmgoutput -size 13g -layout SPUD -fs HFS+J</span><br></pre></td></tr></table></figure>
+<p>命令中的13g是指安装盘大小, 13gb, 并不一定需要是这么多, 你可以看看install app 有多大, 再决定这个尺寸.</p>
+<h3 id="挂载dmg"><a href="#挂载dmg" class="headerlink" title="挂载dmg"></a>挂载dmg</h3><p>这里将上一步创建的dmg挂载起来, 以便后续写入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdiutil attach /tmp/dmgoutput.dmg -noverify -mountpoint /Volumes/install_build</span><br></pre></td></tr></table></figure></p>
+<h3 id="写入安装盘"><a href="#写入安装盘" class="headerlink" title="写入安装盘"></a>写入安装盘</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="string">"/Application/Install xxx.app/Contents/Resources/createinstallmedia"</span> --volume /Volumes/install_build</span><br></pre></td></tr></table></figure>
+<p>Install xxx.app 需要替换为实际的app 名称.<br>注意路径有空格, 需要添加引号, 否则需要自己添加转义符.</p>
+<h3 id="卸载安装盘"><a href="#卸载安装盘" class="headerlink" title="卸载安装盘"></a>卸载安装盘</h3><p>执行完后, 会自动挂载安装盘, 需要到finder 中将这个盘卸载掉.<br>如果提示正在使用, 确认上一步已经执行完毕的情况下, 可以强制卸载.</p>
+<h3 id="转换为-iso"><a href="#转换为-iso" class="headerlink" title="转换为 iso"></a>转换为 iso</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hdiutil convert /tmp/dmgoutput.dmg -format UDTO -o ~/Desktop/output</span><br><span class="line">mv ~/Desktop/output.cdr ~/Desktop/output.iso</span><br></pre></td></tr></table></figure>
+<p>执行完命令后, 会在桌面生成一个iso 文件, 这个文件就可以用来安装了.<br>最后将 /tmp/dmgoutput.dmg, 以及 /Application/Installxxx .app 删掉即可.</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.petehouston.com/download-and-convert-macos-mojave-installer-into-iso-file" target="_blank" rel="noopener">Download and convert MacOS Mojave installer into ISO file</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mac/" rel="tag"># mac</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/18/esxi-cvi-2018-3646/" rel="next" title="ESXI提示CVE-2018-3646警告的处理">
+                <i class="fa fa-chevron-left"></i> ESXI提示CVE-2018-3646警告的处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/19/dsm-esxi/" rel="prev" title="在 esxi 下安装群晖系统">
+                在 esxi 下安装群晖系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">yww</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/ywwzwb" title="GitHub &rarr; https://github.com/ywwzwb" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载系统"><span class="nav-number">1.</span> <span class="nav-text">下载系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#制作-iso-镜像"><span class="nav-number">2.</span> <span class="nav-text">制作 iso 镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建dmg"><span class="nav-number">2.1.</span> <span class="nav-text">创建dmg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挂载dmg"><span class="nav-number">2.2.</span> <span class="nav-text">挂载dmg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入安装盘"><span class="nav-number">2.3.</span> <span class="nav-text">写入安装盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载安装盘"><span class="nav-number">2.4.</span> <span class="nav-text">卸载安装盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转换为-iso"><span class="nav-number">2.5.</span> <span class="nav-text">转换为 iso</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yww</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery@2/dist/jquery.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'TSNFLea1bFtd4cj2uA5pN5eL-MdYXbMMI',
+    appKey: '5Nmfp6TpsW6L0bCAqoYqF23e',
+    placeholder: 'leave comment here',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

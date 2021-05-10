@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="之前一直用的 hp gen8 裸装的黑裙, 最新终于有钱升级系统了, 搞了一套新的配置, 系统性能还可以, 打算用虚拟平台安装群晖.">
+<meta name="keywords" content="esxi,群晖,直通,XPEnology">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 esxi 下安装群晖系统">
+<meta property="og:url" content="https://blog.ywwzwb.pw/2021/01/19/dsm-esxi/index.html">
+<meta property="og:site_name" content="yww 小站">
+<meta property="og:description" content="之前一直用的 hp gen8 裸装的黑裙, 最新终于有钱升级系统了, 搞了一套新的配置, 系统性能还可以, 打算用虚拟平台安装群晖.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/change%20loader.png">
+<meta property="og:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/edit-grub.png">
+<meta property="og:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/vm_config.png">
+<meta property="og:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/%E7%9B%B4%E9%80%9A1.png">
+<meta property="og:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/%E7%9B%B4%E9%80%9A2.png">
+<meta property="og:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/%E7%9B%B4%E9%80%9A3.png">
+<meta property="og:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/%E7%9B%B4%E9%80%9A4.png">
+<meta property="og:updated_time" content="2021-04-02T07:57:10.940Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 esxi 下安装群晖系统">
+<meta name="twitter:description" content="之前一直用的 hp gen8 裸装的黑裙, 最新终于有钱升级系统了, 搞了一套新的配置, 系统性能还可以, 打算用虚拟平台安装群晖.">
+<meta name="twitter:image" content="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/change%20loader.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="yww 小站" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://blog.ywwzwb.pw/2021/01/19/dsm-esxi/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>在 esxi 下安装群晖系统 | yww 小站</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yww 小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.ywwzwb.pw/2021/01/19/dsm-esxi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yww">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yww 小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在 esxi 下安装群晖系统
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-19 13:58:00" itemprop="dateCreated datePublished" datetime="2021-01-19T13:58:00+08:00">2021-01-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-02 15:57:10" itemprop="dateModified" datetime="2021-04-02T15:57:10+08:00">2021-04-02</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/其他/" itemprop="url" rel="index"><span itemprop="name">其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2021/01/19/dsm-esxi/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/01/19/dsm-esxi/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前一直用的 hp gen8 裸装的黑裙, 最新终于有钱升级系统了, 搞了一套新的配置, 系统性能还可以, 打算用虚拟平台安装群晖.<br><a id="more"></a></p>
+<h2 id="硬件配置"><a href="#硬件配置" class="headerlink" title="硬件配置"></a>硬件配置</h2><ol>
+<li>cpu: e5-2670 v3, 10核20线程, 基本上够用了, 买自某宝, 卖家说是正式版, 用cpu-z 看了一下, 貌似确实是正式版, 价格 400 左右.</li>
+<li>内存: 16g * 2 regecc ddr4 内存, 一共500.</li>
+<li>主板: 来自某群友的星能主板, x99 芯片组, 带10个sata 接口, 1个pci-e 接口, 4个 8643 接口, 2个万兆, 2个千兆. 短时间内基本够用.  唯一的缺点是不带远程控制, 安装系统需要使用插上显示器才行.</li>
+<li>电源: 全汉的拆机电源, 非模块电源, 450w, 100 左右</li>
+<li>硬盘: 旧笔记本的拆机硬盘, 500g, 机械硬盘.</li>
+<li>机箱还在咕咕咕.</li>
+</ol>
+<p>因为哥们儿的原因, 这些设备基本都是2手, 先凑合用着吧, 内存以后如果不够还可以扩充, 硬盘以后再从 gen8 上迁移过来.</p>
+<h2 id="操作系统选择"><a href="#操作系统选择" class="headerlink" title="操作系统选择"></a>操作系统选择</h2><p>基本上几个方案: </p>
+<ol>
+<li>直接安装黑裙</li>
+<li>更换系统为 unraid</li>
+<li>pve/esxi + 虚拟化黑裙</li>
+</ol>
+<p>首先, 直接安装黑裙就算了, 毕竟这套平台对黑裙实在是性能过剩.<br>unraid 之前也简单安装了, 试用了一下, 但是感觉使用诸多不便. 连在线文件管理都没有, 自带的虚拟机管理平台快照功能也不支持, 简直无语.<br>最后还是决定直接使用虚拟化平台, pve没有用过, vmware 系列的软件平时用的比较多, 就拿这个开刀了.</p>
+<h2 id="esxi-下黑裙的安装"><a href="#esxi-下黑裙的安装" class="headerlink" title="esxi 下黑裙的安装"></a>esxi 下黑裙的安装</h2><p>首先, 建议你读一下xpenology 的<a href="https://xpenology.com/forum/topic/13061-tutorial-install-dsm-62-on-esxi-67" target="_blank" rel="noopener">这篇教程</a><br>其次, 你需要一个Windows电脑/虚拟机, 用来做转换文件之类的工作.<br>然后可以开始了.</p>
+<h3 id="需要准备的文件"><a href="#需要准备的文件" class="headerlink" title="需要准备的文件:"></a>需要准备的文件:</h3><h4 id="synoboot-vmdk"><a href="#synoboot-vmdk" class="headerlink" title="synoboot vmdk"></a>synoboot vmdk</h4><p>这个可以从 <a href="https://mega.nz/file/fdBWBJYB#P3MbGY2v_X_udUhaSgVBQZ74KNRf7vtjMCO39u1I91Y" target="_blank" rel="noopener">V1.01 的loader</a> 中找到, 下载完成后, 解压就可以看到了.</p>
+<h4 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h4><p>这里使用<a href="https://mega.nz/#F!Fgk01YoT!7fN9Uxe4lpzZWPLXPMONMA" target="_blank" rel="noopener">1.04b 的 loader</a>, loader 的选择可以参考<a href="https://xpenology.com/forum/topic/13333-tutorialreference-6x-loaders-and-platforms/" target="_blank" rel="noopener">这篇文章</a>, 你可以去 <a href="https://xpenology.com/forum/topic/12952-dsm-62-loader/" target="_blank" rel="noopener">loader 的发布页面</a> 看看有没有更新.</p>
+<h4 id="系统安装包"><a href="#系统安装包" class="headerlink" title="系统安装包"></a>系统安装包</h4><p>这个从<a href="https://archive.synology.com/download/Os/DSM" target="_blank" rel="noopener">群晖官网下载</a>即可, 我上面选的loader 是 918+ 的, 安装包也要选择这个型号才行. 1.04b 支持的系统版本是6.2.0, 6.2.3. 系统也需要正确选择, 不同版本loader 对群晖系统的兼容性列表在<a href="https://xpenology.com/forum/topic/13333-tutorialreference-6x-loaders-and-platforms/" target="_blank" rel="noopener">这里</a><br>如果你照着我的教程, 那么6.2.3 的下载地址应该是<a href="https://global.download.synology.com/download/DSM/release/6.2.3/25426/DSM_DS918%2B_25426.pat" target="_blank" rel="noopener">这个</a></p>
+<h4 id="XPEnology-Tool-工具集"><a href="#XPEnology-Tool-工具集" class="headerlink" title="XPEnology Tool 工具集"></a>XPEnology Tool 工具集</h4><p>这其实是一堆工具的集合, 比如 notepad++, OSFMountPortable.<br>发布页面在<a href="https://xpenology.com/forum/topic/12422-xpenology-tool-for-windows-x64/" target="_blank" rel="noopener">这里</a><br>你也可以点<a href="https://mega.nz/#F!BtViHIJA!uNXJtEtXIWR0LNYUEpBuiA" target="_blank" rel="noopener">这个链接直接下载</a><br>后面会用到这个来修改img 文件.</p>
+<h4 id="修改loader"><a href="#修改loader" class="headerlink" title="修改loader"></a>修改loader</h4><p>解压上一步下载的XPEnology Tool,<br>打开OSFMountPortable x64 文件夹中的OSFMountPortable 程序.<br>点击Mount new, 选择之前下载的loader, 询问分区时, 选择分区 0, 记得去掉readonly 之前的勾.<br><img src="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/change%20loader.png" alt="挂载img"><br>最后点击完成. 文件管理器中会多出一个磁盘.<br>打开磁盘中的grub 文件夹, 用notepad++ 打开grub.cfg文件. notepad ++ 在 工具包中的npp文件夹中.<br>找到 menuentry, 1.04b 的一共有三个, 将Baremetal 的两个段删除.<br><img src="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/edit-grub.png" alt="编辑grub"><br>另外, 在第29行处, 将 <code>set extra_args_918=&#39;&#39;</code> 修改为 <code>set extra_args_918=&#39;DiskIdxMap=100004 SataPortMap=144&#39;</code><br>DiskIdxMap 和 SataPortMap 的值可以按需修改.<br>SataPortMap 是用于设定硬盘控制器的, 每一位代表一个控制器, 说明该控制器下接多少个硬盘, 比如, 144 表示有三个控制器(3位数), 第一个控制器下能添加一个1个硬盘, 剩余两个控制器, 每个能添加4个硬盘.<br>DiskIdxMap 用于设定硬盘顺序, 当插入多个硬盘时, 每一个硬盘的索引. 这个数据是16进制数据, 两位数为一组. 第一组 10 用来表示第一个控制器的第一个硬盘, 索引从10 开始, 也是就是十进制的16, 第二个00 表示第二个控制器的第一个硬盘索引从0 开始, 第三个控制器的硬盘从4 开始.<br>这里面比较特殊的是第一组控制器, 我们将它设置为10 是因为群晖默认情况下, 最多支持16个硬盘, 索引就是从 0 - 15, 将索引设置为 16 显然超出了这个范围, 就是为了隐藏这个硬盘, 因为我们第一个硬盘控制器的第一个硬盘(sata 0:0)会将它设置为引导盘, 不需要也不应该在磁盘管理器中显示出来.<br>如果需要修改sn, mac 地址之类的, 也一并修改这个文件内容.<br>mac 地址地址需要拷贝出来, 之后创建虚拟机需要用到, 如果你没有修改应该是00:11:32:12:34:56.<br>保存文件后, 回到文件夹中的OSFMountPortable 程序中, 点击下方的dismount all &amp; exit.<br>这时, loader 就修改完成了.</p>
+<h4 id="将文件上传到虚拟机的存储中"><a href="#将文件上传到虚拟机的存储中" class="headerlink" title="将文件上传到虚拟机的存储中."></a>将文件上传到虚拟机的存储中.</h4><p>打开 esxi, 选择存储, 打开数据存储浏览器, 将loader 和 synoboot.vmdk 上传上去, 放在同一个目录下面.</p>
+<h3 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h3><ol>
+<li>选择新建虚拟机</li>
+<li>操作系统选择 linux, 其他 linux4.x (64位)</li>
+<li>自定义设置中, 删掉默认的磁盘, 默认的scsi控制器, cd/dvd, usb设备.</li>
+<li>cpu, 内存看心情, 后期不够可以加, 测试的话, 1个cpu, 2g内存就可以了.</li>
+<li>网络适配器型号改成e1000e, mac 地址改成之前grub.cfg 中的即可.</li>
+<li>现在添加硬盘, 选择现有硬盘, 选择刚才上传的synoboot.vmdk 即可, 控制器位置设定在0:0.</li>
+<li>打开虚拟机选项, 引导选项, 将启用uefi 安全引导的勾选框去掉.</li>
+<li>如果你需要直通整个AHCI设备的话, 就可以开始直通了.</li>
+<li>如果你只是测试用, 没有直通整个 AHCI 设备的话, 那么这时候再新建一个sata设备.之后就可以添加数据盘了, 大小随便, 放在这个新建的这个sata设备下即可.</li>
+</ol>
+<p><img src="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/vm_config.png" alt="虚拟机配置"></p>
+<p>上图中系统版本选择错了, 最新的群晖系统, linux内核已经更新为4.4了.</p>
+<h3 id="开机试试"><a href="#开机试试" class="headerlink" title="开机试试"></a>开机试试</h3><p>之后可以开机了. 之后虚拟机就不用管了.<br>打开群晖助手, 就可以找到你的机器了.</p>
+<h3 id="安装群晖"><a href="#安装群晖" class="headerlink" title="安装群晖"></a>安装群晖</h3><p>进入系统后, 点击设置, 手动安装, 选择之前下载的DSM_DS918+_xxx.pat<br>接下来就是自动安装了.<br>需要注意的是, 除非你洗白了, 否则不要开启quickconnect 服务.<br>另外, 安装完成后, 记得在设置中, 将系统更新关闭.</p>
+<h2 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h2><h3 id="直通sata"><a href="#直通sata" class="headerlink" title="直通sata"></a>直通sata</h3><p>如果要长期使用的话, 肯定是要添加大量硬盘到群晖的, 而如果直接在esxi 中初始化磁盘, 并在其中创建虚拟磁盘连接到群晖显然不太现实. 原因主要为以下几点</p>
+<ol>
+<li>虚拟盘连接到群晖是无法读取 smart 信息的, 这样如果硬盘损坏就完蛋.</li>
+<li>直通通常也会性能更高. </li>
+<li>直通后, 即使硬盘损坏, 更换硬盘时, 不需要去esxi 中初始化, 直接替换硬盘即可, 如果群晖有设置shr, raid, 那么就可以自动开始恢复数据了.</li>
+</ol>
+<p>不过也有缺点</p>
+<ol>
+<li>直通后, 无法对直通的硬盘打快照</li>
+<li>直通时, 需要完整的内存分配好, 比如设定的是2GB, 则虚拟机启动后, 就会占用2GB.</li>
+<li>直通往往是整个sata控制器, 如果你电脑只有一个sata控制器, 那么直通后, 你可能需要想想把你的esxi放哪.</li>
+</ol>
+<p>那么我们开始直通sata 设备.</p>
+<h4 id="首先-需要在主板中开启虚拟化vt-d-支持"><a href="#首先-需要在主板中开启虚拟化vt-d-支持" class="headerlink" title="首先, 需要在主板中开启虚拟化vt-d 支持"></a>首先, 需要在主板中开启虚拟化vt-d 支持</h4><p>这个需要在bios 中设置, 并需要cpu 的支持.</p>
+<h4 id="启用直通"><a href="#启用直通" class="headerlink" title="启用直通"></a>启用直通</h4><p>默认情况下, esxi 是没有直通sata设备的, 你需要手动将硬盘直通到群晖.</p>
+<h4 id="查询设备pid-vid"><a href="#查询设备pid-vid" class="headerlink" title="查询设备pid, vid"></a>查询设备pid, vid</h4><p>打开esxi 的管理平台, 依次打开管理-&gt;硬件-&gt;PCI 设备<br>右上角输入 ahci 或是 sata 筛选, 找到 sata 控制器后, 点击设备, 在下方会显示设备的 vid, pid.<br><img src="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/%E7%9B%B4%E9%80%9A1.png" alt="读取pid, vid"><br>找到将pid, vid记下来, 如果你由多个设备, 而你想直通其中一个怎么办? 如果型号不一样就好办, 否则就只有靠猜.</p>
+<h4 id="修改passthrough"><a href="#修改passthrough" class="headerlink" title="修改passthrough"></a>修改passthrough</h4><p>这一步需要用到ssh 登陆到命令行, 并使用vi 命令修改文件, 如果你不会, 可能需要先了解一下.<br>首先, 打开管理平台, 依次打开主机-&gt;操作-&gt;服务, 启用安全shell 就行了.<br><img src="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/%E7%9B%B4%E9%80%9A2.png" alt="启用ssh"><br>接下来, 使用ssh 登陆到 esxi 命令行, 编辑/etc/vmware/passthru.map 文件, 在末尾添加上这样一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vid pid d3d0 false</span><br></pre></td></tr></table></figure></p>
+<p>例如<br><img src="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/%E7%9B%B4%E9%80%9A3.png" alt="编辑passthru.map"><br>保存退出后, 记得禁用安全shell.<br>回到管理平台, 重启主机.</p>
+<h4 id="启用直通-1"><a href="#启用直通-1" class="headerlink" title="启用直通"></a>启用直通</h4><p>重启主机后, 回到PCI 设备, 找到之前的 sata 控制器, 点击切换直通, 之后可能会报错, 不用理他, 修改完成后重启就好了.<br><img src="https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/%E7%9B%B4%E9%80%9A4.png" alt="切换直通"></p>
+<h4 id="为虚拟机添加直通设备"><a href="#为虚拟机添加直通设备" class="headerlink" title="为虚拟机添加直通设备"></a>为虚拟机添加直通设备</h4><p>首先, 需要将内存改为固定分配.<br>编辑虚拟机, 内存-&gt;预留所有客户机内存 (全部锁定)<br>之后, 点击添加其他设备, pci 设备就好了.</p>
+<h3 id="安装vmware-tool"><a href="#安装vmware-tool" class="headerlink" title="安装vmware-tool"></a>安装vmware-tool</h3><p>安装vmware tool 后, 可以使用更快的vmxnet3 网卡, 可以安全关机, 也对虚拟机运行有一定优化, 推介安装.<br>github 上已经有人将 vmware tool 编译为spk 安装包了, 我们直接下载后安装就行了.<br>注意, 需要根据不同的设备类型选择不同的安装包型号, 详情查看文档:<br><a href="https://github.com/leonardw/synology-open-vm-tools" target="_blank" rel="noopener">https://github.com/leonardw/synology-open-vm-tools</a><br>如果是 918+ 的话, <a href="https://github.com/leonardw/synology-open-vm-tools/releases/download/release-11.0.1-1/open-vm-tools_apollolake-6.1_11.0.1-1.spk" target="_blank" rel="noopener">点这个链接就好了</a>.</p>
+<h3 id="启用转码-半洗白"><a href="#启用转码-半洗白" class="headerlink" title="启用转码(半洗白)"></a>启用转码(半洗白)</h3><p>我们在上面设置的SN 地址虽然能开机, 但是如果你安装了 moments, dsvideo 后会发现无法转码, 无法生成缩略图, 这个时候, 可以考虑修改SN 与MAC 地址, 也称为半洗白.</p>
+<h4 id="取得合法的-SN-与-mac-地址"><a href="#取得合法的-SN-与-mac-地址" class="headerlink" title="取得合法的 SN 与 mac 地址"></a>取得合法的 SN 与 mac 地址</h4><p>首先, 你需要一个配对好的 sn 与 mac 地址. 可以参考这篇文章<a href="https://post.smzdm.com/p/akm7wqx9/" target="_blank" rel="noopener">获取群辉官方提供的免费序列，适用2019年9月份更新之后</a>的教程.<br>简单来说通过群晖自带的 vitrual machine manager, 创建一个虚拟的群晖, 这个群晖是有正确的序列号的, 然后将这个虚拟群晖里面的 mac 地址与 sn 拷贝出来.<br>我在实际操作时, 发现这一步在虚拟机机上的群晖上不好使, 我启动后, vmm 里面的机器无法获取ip地址, 找了一台电脑直接安装群晖后倒是没问题, 你们可以也可自己试试.<br>当然, 这个 sn 自然是不能用于 QuickConnect的. </p>
+<h4 id="使用-SN-与-MAC-地址"><a href="#使用-SN-与-MAC-地址" class="headerlink" title="使用 SN 与 MAC 地址"></a>使用 SN 与 MAC 地址</h4><p>拿到匹配的 sn 与 mac 地址后, 可以参考之前的步骤, 修改 img 文件, 重新用这个img 文件作为启动盘.<br>也可以参考这篇文章 <a href="https://www.jianshu.com/p/d1a09eaace3c" target="_blank" rel="noopener">修改群晖中的SN和MAC</a> 直接修改. 不过需要注意的是, 教程中第六步中的 mount -t vfat synoboot1 /tmp/boot/ 这个命令需要修改.<br>改为 <code>mount -t vfat sdxx /tmp/boot/</code><br>sdxx 有可能是 sda1, sda2, sdb1 等, 你需要一个个去测试.<br>最后记得修改网卡的 mac 地址.</p>
+<h4 id="验证-SN"><a href="#验证-SN" class="headerlink" title="验证 SN"></a>验证 SN</h4><p>修改好之后, 可以去信息中心查看 sn 是否正确. 如果没问题, 可以在命令行中输入这个命令, 检查是否是合法的 sn<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /usr/syno/etc/codec/activation.conf</span><br></pre></td></tr></table></figure></p>
+<p>如果结果返回类似下面的内容, 那么证明没问题了.<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"success"</span>:<span class="literal">true</span>,<span class="attr">"activated_codec"</span>:[<span class="string">"h264_dec"</span>,<span class="string">"h264_enc"</span>,<span class="string">"hevc_dec"</span>,<span class="string">"mpeg4part2_dec"</span>],<span class="attr">"token"</span>:<span class="string">"xxx"</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/qiaohewei/article/details/108621848?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control" target="_blank" rel="noopener">ESXI 网卡等PCI设备硬件直通配置</a><br><a href="https://xpenology.com/forum/topic/13061-tutorial-install-dsm-62-on-esxi-67" target="_blank" rel="noopener"> Tutorial: Install DSM 6.2 on ESXi 6.7</a><br><a href="https://kzpu.com/archives/4269.html" target="_blank" rel="noopener">ESXI 7.0直通板载SATA控制器</a><br><a href="https://www.opsit.cn/5859.html" target="_blank" rel="noopener">HPE Gen10 Plus ESXi 7.0 虚拟化安装黑群晖 DS918+</a><br><a href="https://www.opsit.cn/5931.html" target="_blank" rel="noopener">黑群晖 DS918+ 修改引导参数隐藏引导盘和数据盘</a><br><a href="https://post.smzdm.com/p/akm7wqx9/" target="_blank" rel="noopener">获取群辉官方提供的免费序列，适用2019年9月份更新之后</a><br><a href="https://www.jianshu.com/p/d1a09eaace3c" target="_blank" rel="noopener">修改群晖中的SN和MAC</a><br><a href="http://www.nasyun.com/thread-72407-1-1.html" target="_blank" rel="noopener">DS918+已有SN码 无法半洗白</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/esxi/" rel="tag"># esxi</a>
+          
+            <a href="/tags/群晖/" rel="tag"># 群晖</a>
+          
+            <a href="/tags/直通/" rel="tag"># 直通</a>
+          
+            <a href="/tags/XPEnology/" rel="tag"># XPEnology</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/18/make-mac-install-iso/" rel="next" title="制作macOS 安装 iso">
+                <i class="fa fa-chevron-left"></i> 制作macOS 安装 iso
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">yww</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/ywwzwb" title="GitHub &rarr; https://github.com/ywwzwb" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件配置"><span class="nav-number">1.</span> <span class="nav-text">硬件配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统选择"><span class="nav-number">2.</span> <span class="nav-text">操作系统选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#esxi-下黑裙的安装"><span class="nav-number">3.</span> <span class="nav-text">esxi 下黑裙的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需要准备的文件"><span class="nav-number">3.1.</span> <span class="nav-text">需要准备的文件:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#synoboot-vmdk"><span class="nav-number">3.1.1.</span> <span class="nav-text">synoboot vmdk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#loader"><span class="nav-number">3.1.2.</span> <span class="nav-text">loader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统安装包"><span class="nav-number">3.1.3.</span> <span class="nav-text">系统安装包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XPEnology-Tool-工具集"><span class="nav-number">3.1.4.</span> <span class="nav-text">XPEnology Tool 工具集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改loader"><span class="nav-number">3.1.5.</span> <span class="nav-text">修改loader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将文件上传到虚拟机的存储中"><span class="nav-number">3.1.6.</span> <span class="nav-text">将文件上传到虚拟机的存储中.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建虚拟机"><span class="nav-number">3.2.</span> <span class="nav-text">创建虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开机试试"><span class="nav-number">3.3.</span> <span class="nav-text">开机试试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装群晖"><span class="nav-number">3.4.</span> <span class="nav-text">安装群晖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他优化"><span class="nav-number">4.</span> <span class="nav-text">其他优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直通sata"><span class="nav-number">4.1.</span> <span class="nav-text">直通sata</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先-需要在主板中开启虚拟化vt-d-支持"><span class="nav-number">4.1.1.</span> <span class="nav-text">首先, 需要在主板中开启虚拟化vt-d 支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用直通"><span class="nav-number">4.1.2.</span> <span class="nav-text">启用直通</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询设备pid-vid"><span class="nav-number">4.1.3.</span> <span class="nav-text">查询设备pid, vid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改passthrough"><span class="nav-number">4.1.4.</span> <span class="nav-text">修改passthrough</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用直通-1"><span class="nav-number">4.1.5.</span> <span class="nav-text">启用直通</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为虚拟机添加直通设备"><span class="nav-number">4.1.6.</span> <span class="nav-text">为虚拟机添加直通设备</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装vmware-tool"><span class="nav-number">4.2.</span> <span class="nav-text">安装vmware-tool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启用转码-半洗白"><span class="nav-number">4.3.</span> <span class="nav-text">启用转码(半洗白)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#取得合法的-SN-与-mac-地址"><span class="nav-number">4.3.1.</span> <span class="nav-text">取得合法的 SN 与 mac 地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-SN-与-MAC-地址"><span class="nav-number">4.3.2.</span> <span class="nav-text">使用 SN 与 MAC 地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证-SN"><span class="nav-number">4.3.3.</span> <span class="nav-text">验证 SN</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yww</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery@2/dist/jquery.min.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'TSNFLea1bFtd4cj2uA5pN5eL-MdYXbMMI',
+    appKey: '5Nmfp6TpsW6L0bCAqoYqF23e',
+    placeholder: 'leave comment here',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
