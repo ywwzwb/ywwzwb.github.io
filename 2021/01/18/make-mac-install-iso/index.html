@@ -127,18 +127,18 @@
 
 
 
-  <meta name="description" content="在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(除 vmware fusion, 比如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.">
+  <meta name="description" content="在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.">
 <meta name="keywords" content="mac">
 <meta property="og:type" content="article">
 <meta property="og:title" content="制作macOS 安装 iso">
 <meta property="og:url" content="https://blog.ywwzwb.pw/2021/01/18/make-mac-install-iso/index.html">
 <meta property="og:site_name" content="yww 小站">
-<meta property="og:description" content="在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(除 vmware fusion, 比如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.">
+<meta property="og:description" content="在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-05-10T07:27:39.860Z">
+<meta property="og:updated_time" content="2021-05-10T07:29:28.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="制作macOS 安装 iso">
-<meta name="twitter:description" content="在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(除 vmware fusion, 比如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.">
+<meta name="twitter:description" content="在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.">
 
 
 
@@ -400,7 +400,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-05-10 15:27:39" itemprop="dateModified" datetime="2021-05-10T15:27:39+08:00">2021-05-10</time>
+                <time title="修改时间：2021-05-10 15:29:28" itemprop="dateModified" datetime="2021-05-10T15:29:28+08:00">2021-05-10</time>
               
             
           </span>
@@ -472,7 +472,7 @@
       
 
       
-        <p>在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(除 vmware fusion, 比如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?<br>虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.<br><a id="more"></a></p>
+        <p>在虚拟机中安装 macOS, 通常需要一个 iso 文件引导(如 esxi), 但是我们往往下载到的是 app 格式的安装包, 如何才能将其打包为 iso 文件?<br>虽然网上有别人做好的 iso 文件, 但是无法得知是否有病毒木马之类的, 还是自己动手比较靠谱.<br><a id="more"></a></p>
 <h2 id="下载系统"><a href="#下载系统" class="headerlink" title="下载系统"></a>下载系统</h2><p>如果需要下载到干净的系统, 那么你需要一台可以工作的 mac 电脑, 或是其他运行 macOS 的虚拟机/黑苹果等.<br>可以参考这篇文档的 下载 macOS 部分, 里面有教你如何下载系统. 目前有<a href="https://itunes.apple.com/cn/app/macos-high-sierra/id1246284741?ls=1&amp;mt=12" target="_blank" rel="noopener">10.13(macOS High Sierra)</a>, <a href="https://itunes.apple.com/cn/app/macos-mojave/id1398502828?ls=1&amp;mt=12" target="_blank" rel="noopener">10.14(macOS Mojave)</a>, <a href="https://itunes.apple.com/cn/app/macos-catalina/id1466841314?ls=1&amp;mt=12" target="_blank" rel="noopener">10.15(macOS Catalina)</a>, <a href="https://itunes.apple.com/cn/app/macos-big-sur/id1526878132?ls=1&amp;mt=12" target="_blank" rel="noopener">11.0(macOS Big Sur)</a>, <a href="http://updates-http.cdn-apple.com/2019/cert/061-41424-20191024-218af9ec-cf50-4516-9011-228c78eda3d2/InstallMacOSX.dmg" target="_blank" rel="noopener">10.11(OS X El Capitan, 这个链接不能直接打开, 右键复制链接地址后, 手动开启新的tab 页面打开)</a>的系统提供下载.<br>如果是下载 10.13, 10.14, 10.15, 11.0, 基本就是打开连接后, 会提示是否在 App Store 中显示, 然后会进入系统设置的软件更新, 开始下载.<br>如果是10.11 则是直接下载一个dmg, 里面有一个InstallMacOSX.pkg 的安装包, 将它打开安装, 稍后就会多出现程序出现在你的/Application目录中.<br>下载完成后, 不用安装. 如果出现了安装界面, 直接退出即可.</p>
 <h2 id="制作-iso-镜像"><a href="#制作-iso-镜像" class="headerlink" title="制作 iso 镜像"></a>制作 iso 镜像</h2><p>大致流程:<br>创建dmg, 将系统安装盘写入dmg, 将dmg 转换为iso.<br>首先需要打开终端执行命令.</p>
 <h3 id="创建dmg"><a href="#创建dmg" class="headerlink" title="创建dmg"></a>创建dmg</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdiutil create -o /tmp/dmgoutput -size 13g -layout SPUD -fs HFS+J</span><br></pre></td></tr></table></figure>
