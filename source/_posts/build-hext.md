@@ -36,7 +36,8 @@ categories:
 - [x] 评论系统
   - [x] ~~LeanCloud 应用创建(2018-05-08)~~ 废弃掉了
   - [x] ~~valine 集成~~ 废弃掉了
-  - [ ] 评论系统回复通知
+  - [x] 使用 [utterances](https://theme-next.js.org/docs/third-party-services/comments#Utterances) 集成了评论系统, 会自动添加到 issue 中
+  - [x] 评论系统回复通知, 现在回复也能通过 issue 自动通知了, 感谢大佬开源
 - [x] ~~docker 集成~~ 不需要了
 ## 下面的内容已经过时, 不建议使用
 
