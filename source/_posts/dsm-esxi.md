@@ -32,43 +32,8 @@ categories:
 unraid 之前也简单安装了, 试用了一下, 但是感觉使用诸多不便. 连在线文件管理都没有, 自带的虚拟机管理平台快照功能也不支持, 简直无语.
 最后还是决定直接使用虚拟化平台, pve没有用过, vmware 系列的软件平时用的比较多, 就拿这个开刀了.
 ## esxi 下黑裙的安装
-首先, 建议你读一下xpenology 的[这篇教程](https://xpenology.com/forum/topic/13061-tutorial-install-dsm-62-on-esxi-67)
-其次, 你需要一个Windows电脑/虚拟机, 用来做转换文件之类的工作.
-然后可以开始了.
-### 需要准备的文件: 
-####  synoboot vmdk
-这个可以从 [V1.01 的loader](https://mega.nz/file/fdBWBJYB#P3MbGY2v_X_udUhaSgVBQZ74KNRf7vtjMCO39u1I91Y) 中找到, 下载完成后, 解压就可以看到了.
-#### loader
-这里使用[1.04b 的 loader](https://mega.nz/#F!Fgk01YoT!7fN9Uxe4lpzZWPLXPMONMA), loader 的选择可以参考[这篇文章](https://xpenology.com/forum/topic/13333-tutorialreference-6x-loaders-and-platforms/), 你可以去 [loader 的发布页面](https://xpenology.com/forum/topic/12952-dsm-62-loader/) 看看有没有更新.
-#### 系统安装包
-这个从[群晖官网下载](https://archive.synology.com/download/Os/DSM)即可, 我上面选的loader 是 918+ 的, 安装包也要选择这个型号才行. 1.04b 支持的系统版本是6.2.0, 6.2.3. 系统也需要正确选择, 不同版本loader 对群晖系统的兼容性列表在[这里](https://xpenology.com/forum/topic/13333-tutorialreference-6x-loaders-and-platforms/)
-如果你照着我的教程, 那么6.2.3 的下载地址应该是[这个](https://global.download.synology.com/download/DSM/release/6.2.3/25426/DSM_DS918%2B_25426.pat)
 
-#### XPEnology Tool 工具集
-这其实是一堆工具的集合, 比如 notepad++, OSFMountPortable.
-发布页面在[这里](https://xpenology.com/forum/topic/12422-xpenology-tool-for-windows-x64/)
-你也可以点[这个链接直接下载](https://mega.nz/#F!BtViHIJA!uNXJtEtXIWR0LNYUEpBuiA)
-后面会用到这个来修改img 文件.
-
-#### 修改loader
-解压上一步下载的XPEnology Tool, 
-打开OSFMountPortable x64 文件夹中的OSFMountPortable 程序.
-点击Mount new, 选择之前下载的loader, 询问分区时, 选择分区 0, 记得去掉readonly 之前的勾.
-![挂载img](https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/change%20loader.png)
-最后点击完成. 文件管理器中会多出一个磁盘. 
-打开磁盘中的grub 文件夹, 用notepad++ 打开grub.cfg文件. notepad ++ 在 工具包中的npp文件夹中.
-找到 menuentry, 1.04b 的一共有三个, 将Baremetal 的两个段删除.
-![编辑grub](https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/esxi-dsm/edit-grub.png
-)
-另外, 在第29行处, 将 `set extra_args_918=''` 修改为 `set extra_args_918='DiskIdxMap=100004 SataPortMap=144'`
-DiskIdxMap 和 SataPortMap 的值可以按需修改.
-SataPortMap 是用于设定硬盘控制器的, 每一位代表一个控制器, 说明该控制器下接多少个硬盘, 比如, 144 表示有三个控制器(3位数), 第一个控制器下能添加一个1个硬盘, 剩余两个控制器, 每个能添加4个硬盘.
-DiskIdxMap 用于设定硬盘顺序, 当插入多个硬盘时, 每一个硬盘的索引. 这个数据是16进制数据, 两位数为一组. 第一组 10 用来表示第一个控制器的第一个硬盘, 索引从10 开始, 也是就是十进制的16, 第二个00 表示第二个控制器的第一个硬盘索引从0 开始, 第三个控制器的硬盘从4 开始.
-这里面比较特殊的是第一组控制器, 我们将它设置为10 是因为群晖默认情况下, 最多支持16个硬盘, 索引就是从 0 - 15, 将索引设置为 16 显然超出了这个范围, 就是为了隐藏这个硬盘, 因为我们第一个硬盘控制器的第一个硬盘(sata 0:0)会将它设置为引导盘, 不需要也不应该在磁盘管理器中显示出来. 
-如果需要修改sn, mac 地址之类的, 也一并修改这个文件内容.
-mac 地址地址需要拷贝出来, 之后创建虚拟机需要用到, 如果你没有修改应该是00:11:32:12:34:56.
-保存文件后, 回到文件夹中的OSFMountPortable 程序中, 点击下方的dismount all & exit.
-这时, loader 就修改完成了.
+TODO: 待更新
 
 #### 将文件上传到虚拟机的存储中.
 打开 esxi, 选择存储, 打开数据存储浏览器, 将loader 和 synoboot.vmdk 上传上去, 放在同一个目录下面.
