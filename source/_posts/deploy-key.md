@@ -17,8 +17,7 @@ deploy key 本质上是一个 ssh 公钥, 和你的个人公钥一样, github �
 ## 怎么用
 1. 首先, 和普通公钥对一样, 你需要先实现准备好公私钥对.
 2. 在github 中找到特定的仓库, 点击 setting->deploy key->Add deploy key.
-   ![](
-https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/deploy-key/deploy-key01.png)
+{% asset_img deploy-key01.png xyz %}
 3. 在弹出的界面中输入之前准备好的公钥, 如果需要写入权限, 则钩上write access.
 
 搞定收工.

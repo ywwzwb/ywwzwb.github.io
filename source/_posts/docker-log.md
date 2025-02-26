@@ -14,17 +14,19 @@ categories:
 ## 关于 docker 的虚拟化.
 总所周知, docker 的虚拟化和虚拟机最大的不同就是docker 容器是直接在宿主机的操作系统上运行的, 不需要一整套的虚拟化硬件.
 这个时候, 通常会有一个配图:
-![docker](https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/docker-log/docker.png)
-![虚拟机](https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/docker-log/virtualization.png)
+{% asset_img docker.png docker %}
+{% asset_img virtualization.png 虚拟机 %}
 上图是docker 的虚拟化, 下图是传统虚拟机, 可以看到传统虚拟机在虚拟机里面安装整套的操作系统, 虚拟机需要准备虚拟的cpu, 内存, 硬盘等设配.
 而docker则是直接运行在宿主机上, 使用 Linux 的各种黑科技将进程隔离起来.
 ### 那么问题来了
 在 Linux 的宿主机上很好理解, 因为 docker 容器里面的进程通常也是基于 Linux 的, 所以我们只需要做好进程之间的隔离就好了, 进程可以直接在宿主机上执行. 
-那么 winddows 呢? mac 呢? windows 和 mac 这种并不是 Linux 操作系统的如何怎么办? 由于操作系统内核的不同, 进程并不能直接在宿主机上运行.
+那么 windows 呢? mac 呢? windows 和 mac 这种并不是 Linux 操作系统的如何怎么办? 由于操作系统内核的不同, 进程并不能直接在宿主机上运行.
 那问题来了, 这个时候怎么办?
-以mac 操作系统为例, 我们[查阅文档可知](https://docs.docker.com/docker-for-mac/docker-toolbox/)
+以mac 操作系统为例, 我们[查阅文档可知](https://docs.docker.com/docker-for-mac/docker-toolbox/)
 mac 版本的 Docker for desktop 是基于 HyperKit 来开发的, HyperKit 可以理解为一个虚拟机. 这样, 一切就很清晰了.
-![macOS 下的系统结构](https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/docker-log/QQ20200505-143002%402x.png) 
+
+{% asset_img docker-on-mac macOS 下的系统结构 %}
+
 
 ## docker 的多段构建 
 基本上来说, 我们编译需要用到的工具在运行大多都用不到, 如果一起都打包一个镜像中, 就显得特别臃肿.

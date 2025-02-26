@@ -117,8 +117,7 @@ deploy:
   branch: master
 ```
 然后将之前生成的公钥(路径:`~/.ssh/id_rsa.pub`)拷贝出来. 在 `xxx.github.io` 仓库的设置为 deploy key 即可.
-![github 设置](
-https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/deploy-key/deploy-key01.png)
+{% asset_img deploy-key01.png github 设置 %}
 
 
 ### 关于readme.md 文件
@@ -203,8 +202,8 @@ comments: false
 以下均以 `bitbucket` 来说明
 1. 开启访问权限
 和 `github` 的 `deploy key` 类似, `bitbucket` 也有类似的, 叫 `access key`, 也可以设置读写权限, 这里我们只需要读取就行了.
-![](https://zwb-hexo-image.oss-cn-chengdu.aliyuncs.com/build-hexo/076DDD1E-F3D9-472E-80D7-280C5B8F0F0A.png)
-2. 添加webhook
+{% asset_img repository.png g %}
+1. 添加webhook
    `webhook` 原理很简单, `bitbucket` 会在用户触发某个动作, 例如push动作, 之后, 自动调用某一个 url, 在其中传入特定的参数, web服务器接收到这个请求之后, 再执行相应的动作就可以了.
    我们可以使用golang 来完成这个简单的任务.
 ``` golang
