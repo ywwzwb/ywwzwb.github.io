@@ -1,7 +1,9 @@
 ---
 title: openwrt 编译小记
 date: 2025-06-29 15:39:00
-tags: openwrt
+tags: 
+- openwrt
+- 软路由
 categories:
 - 技术
 - 其他
